@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Nanum Gothic';
+    font-weight: 400;
+    src: url('./fonts/Nanum_Gothic/NanumGothic-Regular.ttf') ;
+}
+
+@font-face {
+    font-family: 'Nanum Gothic';
+    font-weight: 700;
+    src: url('./fonts/Nanum_Gothic/NanumGothic-Bold.ttf') ;
+}
+
+@font-face {
+    font-family: 'Nanum Gothic';
+    font-weight: 900;
+    src: url('./fonts/Nanum_Gothic/NanumGothic-ExtraBold.ttf') ;
+}
+
