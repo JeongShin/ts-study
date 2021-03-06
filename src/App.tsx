@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Post, Advertisement, CatPost } from "./components/Post";
+import { Post, Advertisement, isCatPost, ICatPost, IAdvertisement, CatPost } from "./components/Post";
 import fetchSampleData from "./fetchSampleData";
 import Loader from "react-loader-spinner";
 import Navbar from "./components/Navbar";
@@ -13,6 +13,7 @@ function App() {
   const [showNavbar, setShowNavbar] = useState<boolean>(true);
   const [lastScroll, setLastScroll] = useState<number>(0);
 
+  // post fetch 콜백
   const fetchData = useCallback((currentPage: number) => {
     setLoading(true);
     fetchSampleData(currentPage)
@@ -25,7 +26,13 @@ function App() {
       .catch((error) => {
         console.log(error);
       })
-  }, [])
+  }, []);
+
+  // post 삭제 핸들러
+  const _handleDelete = (index: number): void => {
+    posts.splice(index, 1);
+    setPosts([...posts]);
+  }
 
   const _handleScroll = useCallback((): void => {
     const { innerHeight, pageYOffset } = window;
@@ -55,20 +62,18 @@ function App() {
     return () => window.removeEventListener('scroll', _handleScroll, true);
   }, [_handleScroll]);
 
-
-
   return (
     <div className="bg-gray-50">
       <Navbar visible={ showNavbar }/>
       <div className="grid grid-cols-2 md:grid-c ols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2 lg:p-10 p-2">
         { posts.map((post, index) => {
-          if (post instanceof CatPost) {
-            const { name, gender, age, imageUrl } = post.props;
-            return <CatPost name={ name } gender={ gender } age={ age } imageUrl={ imageUrl } key={ index }/>
+          if (isCatPost(post)) {
+            const { name, gender, age, imageUrl, _id } = post as ICatPost;
+            return <CatPost name={ name } gender={ gender } age={ age } imageUrl={ imageUrl } key={ index } _id={ _id } index={ index } deleteEvent={ _handleDelete }/>
           }
-          debugger
-          const { content } = post.props;
-          return <Advertisement content={ content } key={ index }/>
+
+          const { header, body } = post as IAdvertisement;
+          return <Advertisement header={ header } body={ body } key={ index } index={ index } deleteEvent={ _handleDelete }/>
         }) }
       </div>
       <div className="flex justify-center">
