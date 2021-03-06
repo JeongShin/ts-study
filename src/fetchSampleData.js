@@ -7,13 +7,15 @@ export default async function fetchSampleData(page) {
 
   return new Promise((resolve, reject) => {
     if (page > 0) {
-      resolve({
-        page: page,
-        data: sampleData.slice(from, to),
-        total_pages: ~~(sampleData.length / perPage) + (((sampleData.length / perPage) - ~~(sampleData.length / perPage)) > 0 ? 1 : 0),
-      })
+      setTimeout(() => {
+        resolve({
+          page: page,
+          data: sampleData.slice(from, to),
+          total_pages: ~~(sampleData.length / perPage) + (((sampleData.length / perPage) - ~~(sampleData.length / perPage)) > 0 ? 1 : 0),
+        })
+      }, 700);
+    } else {
+      reject(new Error("데이터 로드에 실패 하였습니다. "))
     }
-
-    reject(new Error("데이터 로드에 실패 하였습니다. "))
   })
 }

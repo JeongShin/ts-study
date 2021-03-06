@@ -1,16 +1,17 @@
 import React from 'react';
 
 type Gender = "male" | "female";
+type Type = "cat" | "ad";
 
 export interface IProps {
+  _type: Type;
   name: string;
-  _id: string;
   gender?: Gender;
   age?: number;
   imageUrl?: string;
 }
 
-export const Post: React.FC<IProps> = ({ name, gender, age, imageUrl , _id}) => {
+export const Post: React.FC<IProps> = ({ name, gender, age, imageUrl }) => {
   return (
     <div className="border rounded-xl h-60 shadow-md overflow-hidden flex flex-col bg-white hover:bg-indigo-100">
       {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */ }
@@ -22,3 +23,5 @@ export const Post: React.FC<IProps> = ({ name, gender, age, imageUrl , _id}) => 
     </div>
   )
 };
+
+// export const
