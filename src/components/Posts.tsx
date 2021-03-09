@@ -10,14 +10,14 @@ const Posts = (props: { toggleNav: (visible: boolean) => void }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [lastScroll, setLastScroll] = useState<number>(0);
 
-  const getPosts = useCallback( async (currentPage: number): Promise<IRespond> => {
+  const getPosts = useCallback( async (currentPage: number): Promise<IRespond | Error> => {
     return fetchSampleData(currentPage)
       .then((res) => {
         res.data = addAdvertisement(res.data);
         return res;
       })
-      .catch((error) => {
-        return error;
+      .catch(() => {
+        throw new Error("데이터 로드에 실패 하였습니다. ");
       });
   }, []);
 
@@ -41,11 +41,15 @@ const Posts = (props: { toggleNav: (visible: boolean) => void }) => {
 
   useEffect(() => {
     setLoading(true);
-    getPosts(currentPage).then(({ data, page, totalPages }) => {
+    getPosts(currentPage).then((respond  )  => {
+      const { data, page, totalPages } = respond as IRespond;
       setLoading(false);
       setPosts(prevPosts => [...prevPosts, ...data]);
       if (page >= totalPages)
         setAllowInfinite(false);
+    }).catch(() => {
+      setLoading(false);
+      alert("문제가 발생 했습니다. 잠시 후 다시 시도해주세요. ");
     })
   }, [currentPage, getPosts])
 
