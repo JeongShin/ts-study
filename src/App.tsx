@@ -1,10 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Posts from "./components/Posts";
+import Navbar from "./components/Navbar";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-function App() {
+const App = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  const toggleNav = (visible: boolean) => {
+    setIsVisible(visible);
+  }
+
   return (
-    <div className="App">
+    <div className="bg-gray-50">
+      <Navbar visible={ isVisible }/>
+      <Posts toggleNav={ toggleNav }/>
     </div>
   );
 }

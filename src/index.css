@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .post-container {
+    @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8 gap-2 lg:p-10 p-2;
+  }
+
+  .post {
+    @apply border rounded-xl h-60 shadow-md overflow-hidden flex flex-col hover:bg-indigo-100 relative;
+  }
+
+  .post__image {
+    @apply w-full h-32;
+  }
+
+  .post__delete-btn {
+    @apply absolute bottom-4 right-4 text-sm text-red-500 border border-red-500 rounded-lg p-1 cursor-pointer hover:bg-red-500 hover:text-white;
+  }
+
+  .post__title {
+    @apply absolute bottom-28 right-2 text-white font-bold text-lg;
+  }
+}
+
+@font-face {
+  font-family: 'Nanum Gothic';
+  font-weight: 400;
+  src: url('assets/fonts/Nanum_Gothic/NanumGothic-Regular.ttf') ;
+}
+
+@font-face {
+  font-family: 'Nanum Gothic';
+  font-weight: 700;
+  src: url('assets/fonts/Nanum_Gothic/NanumGothic-Bold.ttf') ;
+}
+
+@font-face {
+  font-family: 'Nanum Gothic';
+  font-weight: 900;
+  src: url('assets/fonts/Nanum_Gothic/NanumGothic-ExtraBold.ttf') ;
+}
+
