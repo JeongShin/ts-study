@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Advertisement, CatPost, addAdvertisement, IAdvertisement, ICatPost } from "./Post";
-import { fetchSampleData, IRespond } from "../assets/fetchSampleData";
+import { fetchSampleData, IResponse } from "../assets/fetchSampleData";
 import Loader from "react-loader-spinner";
 
 const Posts = (props: { toggleNav: (visible: boolean) => void }) => {
   const [posts, setPosts] = useState([] as Array <ICatPost | IAdvertisement>);
-  const [allowInfinite, setAllowInfinite] = useState(true);
+  const [allowInfinite, setAllowInfinite] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [lastScroll, setLastScroll] = useState<number>(0);
 
-  const getPosts = useCallback( async (currentPage: number): Promise<IRespond | Error> => {
+  const getPosts = useCallback( async (currentPage: number): Promise<IResponse | Error> => {
     return fetchSampleData(currentPage)
       .then((res) => {
         res.data = addAdvertisement(res.data);
@@ -41,15 +41,15 @@ const Posts = (props: { toggleNav: (visible: boolean) => void }) => {
 
   useEffect(() => {
     setLoading(true);
-    getPosts(currentPage).then((respond  )  => {
-      const { data, page, totalPages } = respond as IRespond;
-      setLoading(false);
+    getPosts(currentPage).then((response  )  => {
+      const { data, page, totalPages } = response as IResponse;
       setPosts(prevPosts => [...prevPosts, ...data]);
       if (page >= totalPages)
         setAllowInfinite(false);
     }).catch(() => {
-      setLoading(false);
       alert("문제가 발생 했습니다. 잠시 후 다시 시도해주세요. ");
+    }).finally(() => {
+      setLoading(false)
     })
   }, [currentPage, getPosts])
 
@@ -59,20 +59,22 @@ const Posts = (props: { toggleNav: (visible: boolean) => void }) => {
   }, [handleScroll]);
 
   return (
-    <React.Fragment>
+    <>
       <div className="post-container">
         { posts.map((post, index) => (
-          '_id' in post ?
-            <CatPost name={ post.name } gender={ post.gender } age={ post.age } imageUrl={ post.imageUrl } key={ post.index } _id={ post._id } index={ index } deleteEvent={ handleDelete }/>
-            :
-            <Advertisement header={ post.header } body={ post.body } key={ index } index={ index } deleteEvent={ handleDelete }/>
+            '_id' in post ?
+              <CatPost name={ post.name } gender={ post.gender } age={ post.age } imageUrl={ post.imageUrl }
+                       key={ index } _id={ post._id } index={ index } deleteEvent={ handleDelete }/>
+              :
+              <Advertisement header={ post.header } body={ post.body } key={ index } index={ index }
+                             deleteEvent={ handleDelete }/>
           )
-        )}
+        ) }
       </div>
       <div className="flex justify-center">
         { loading ? <Loader type="TailSpin" color="#000"/> : null }
       </div>
-    </React.Fragment>
+    </>
   )
 }
 

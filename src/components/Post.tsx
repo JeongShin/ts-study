@@ -20,12 +20,11 @@ export interface IAdvertisement extends IPost {
 }
 
 export const CatPost = (props: ICatPost) => {
-  const { imageUrl, name, _id, age, gender, deleteEvent, index } = props;
+  const { imageUrl, name, age, gender, deleteEvent, index } = props;
 
   return (
     <div className="post">
-      {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */ }
-      <img src={ imageUrl } className="post__image" alt={ `cat-image-${ _id }` }/>
+      <img src={ imageUrl } className="post__image"/>
       <div className="p-6">
         <p className="text-2xl font-bold">{ name }</p>
         <p className="text-gray-400">{ age }살 입니다</p>

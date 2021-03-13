@@ -1,13 +1,13 @@
 import sampleData from "../sample.json";
 import { IAdvertisement, ICatPost } from "../components/Post";
 
-export interface IRespond {
+export interface IResponse {
   page: number,
   totalPages: number,
   data: Array <ICatPost | IAdvertisement>,
 }
 
-export async function fetchSampleData(page: number): Promise<IRespond> {
+export async function fetchSampleData(page: number): Promise<IResponse> {
   const perPage = 50;
   const from = (page - 1) * perPage;
   const to = from + perPage;
